@@ -1,0 +1,533 @@
+body {
+    font-family: 'Anuphan', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+    color: #333;
+}
+
+.container {
+    width: 80%;
+    margin: 20px auto;
+    background: #ffffff;
+    padding: 25px;
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
+    border-radius: 12px;
+    transition: all 0.3s ease-in-out;
+}
+
+.content {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+table th, table td {
+    text-align: left;
+    padding: 12px 15px;
+    border: 1px solid #e0e0e0;
+}
+
+table th {
+    width: 150px;
+    background-color: #4a90e2;
+    color: white;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+table td {
+    width: 300px;
+    font-size: 14px;
+}
+
+table tr:hover {
+    background-color: #e3f2fd;
+    border: 1px solid #4a90e2;
+}
+
+@media (max-width: 1024px) {
+    .container2 {
+        margin-left: 85px;
+        width: calc(100% - 85px);
+    }
+    table {
+        font-size: 10px;
+    }
+
+    th, td {
+        padding: 10px;
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 768px) {
+    .container2 {
+        margin-left: 85px;
+        width: calc(100% - 85px);
+    }
+
+    table {
+        font-size: 10px;
+    }
+
+    th, td {
+        padding: 8px;
+        font-size: 12px;
+    }
+
+    .table-container {
+        overflow-x: auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .container2 {
+        margin-left: 85px;
+        width: calc(100% - 85px);
+    }
+
+    table {
+        font-size: 10px;
+    }
+
+    th, td {
+        padding: 6px;
+        font-size: 12px;
+    }
+
+    .table-container {
+        padding: 10px;
+    }
+}
+
+.button-group {
+    display: flex;
+    justify-content: flex-start;
+    gap: 13px;
+    align-items: center;
+}
+
+.btn {
+    font-family: 'Anuphan', sans-serif;
+    display: inline-flex;
+    align-items: center;
+    padding: 7px 17px;
+    font-size: 14px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.edit-btn {
+    font-family: 'Anuphan', sans-serif;
+    background-color: #e2bf21;
+    color: white;
+}
+
+.edit-btn:hover {
+    background-color: #e0c134;
+    transform: scale(1.05);
+}
+
+.delete-btn {
+    background-color: #f44336;
+    color: white;
+}
+
+.delete-btn:hover {
+    background-color: #e53935;
+    transform: scale(1.05);
+}
+
+.delete-btn:focus {
+    outline: none;
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+}
+
+.material-symbols-outlined {
+    font-size: 25px;
+}
+
+.back-btn {
+    background-color: #888;
+    color: white;
+}
+
+.back-btn:hover {
+    background-color: #666;
+    transform: scale(1.05);
+}
+
+.print-btn {
+    background-color: #2854a5;
+    color: white;
+}
+
+.print-btn:hover {
+    background-color: #4864c0;
+    transform: scale(1.05);
+}
+
+@media (max-width: 480px) {
+    .button-group {
+        justify-content: center;
+        gap: 8px;
+    }
+
+    .btn {
+        font-size: 12px;
+        padding: 6px 12px;
+    }
+
+    .material-symbols-outlined {
+        font-size: 20px;
+    }
+}
+
+.status-light {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 8px;
+    position: relative;
+}
+
+.status-light.active {
+    background-color: #4caf50;
+    box-shadow: 0 0 8px 2px #4caf50;
+}
+
+.status-light.inactive {
+    background-color: #f44336;
+    box-shadow: 0 0 8px 2px #f44336;
+}
+
+.status-light.off {
+    background-color: #b0bec5;
+    box-shadow: none;
+}
+
+.header-title {
+    text-align: center;
+    font-size: 26px;
+    font-weight: normal;
+    color: #2c3e50;
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+
+.header-subtitle {
+    text-align: center;
+    font-weight: normal;
+    font-size: 15px;
+    color: #34495e;
+    line-height: 1;
+}
+
+.footer-line p{
+    position: relative;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    padding: 2.8px 0;
+    color: #999;
+    font-size: 14px;
+    margin-top: auto;
+}
+
+footer-line p {
+    margin: 5px 0;
+    line-height: 1.5;
+}
+
+@media (max-width: 768px) {
+    .footer-line p {
+        font-size: 12px;
+        position: relative;
+    }
+
+    .footer-line p {
+        margin: 3px 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .footer-line p {
+        font-size: 10px;
+        position: relative;
+    }
+
+    .footer-line p {
+        margin: 2px 0;
+    }
+}
+
+.file-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #007BFF;
+    font-weight: 500;
+    transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.file-link:hover {
+    color: #0056b3;
+}
+
+.file-icon {
+    font-size: 24px;
+    margin-right: 8px;
+    color: #007BFF;
+}
+
+.file-name {
+    font-size: 16px;
+    font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.no-file {
+    color: #888;
+}
+
+@media (max-width: 600px) {
+    .file-link {
+        flex-direction: column;
+        align-items: flex-start;
+        font-size: 10px;
+        margin-bottom: 8px;
+    }
+
+    .file-icon {
+        font-size: 15px;
+        margin-bottom: 6px;
+    }
+
+    .file-name {
+        font-size: 10px;
+        white-space: normal;
+    }
+
+    .no-file {
+        font-size: 10px;
+    }
+}
+
+.asset-details {
+    font-size: 16px;
+    line-height: 1.5;
+    margin-top: 10px;
+}
+
+.asset-details p {
+    margin: 5px 0;
+}
+
+.asset-details strong {
+    font-weight: bold;
+}
+
+.account-number {
+    float: right;
+    color: #555;
+}
+
+.purchase-date {
+    float: right;
+    color: #555;
+}
+
+.attached-image {
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+}
+
+@media (max-width: 768px) {
+    .footer-line p {
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .footer-line p {
+        font-size: 10px;
+    }
+}
+
+.file-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #007BFF;
+}
+
+.file-link:hover {
+    color: #0056b3;
+}
+
+.file-icon {
+    font-size: 24px;
+    margin-right: 8px;
+}
+
+.file-name {
+    font-size: 16px;
+    font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.no-file {
+    color: #888;
+}
+
+@media (max-width: 600px) {
+    .file-link {
+        flex-direction: column;
+        font-size: 10px;
+        margin-bottom: 8px;
+    }
+
+    .file-icon {
+        font-size: 15px;
+        margin-bottom: 6px;
+    }
+
+    .file-name {
+        font-size: 10px;
+    }
+
+    .no-file {
+        font-size: 10px;
+    }
+}
+
+.asset-details {
+    font-size: 16px;
+    line-height: 1.5;
+    margin-top: 10px;
+}
+
+.asset-details p {
+    margin: 5px 0;
+}
+
+.asset-details strong {
+    font-weight: bold;
+}
+
+.account-number {
+    float: right;
+    color: #555;
+}
+
+.purchase-date {
+    float: right;
+    color: #555;
+}
+
+.attached-image {
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+@media print {
+    @page {
+        size: A4 landscape;
+        margin-top: 0mm;
+        margin-bottom: 0mm; 
+    }
+
+    .print-btn,
+    .edit-btn,
+    .delete-btn,
+    .back-btn {
+        display: none;
+    }
+
+    body {
+        font-size: 8pt;
+        margin: 0;
+        padding: 0;
+        -webkit-print-color-adjust: exact;
+    }
+
+    .container {
+        width: 100%;
+        height: 100%;
+        margin-top: 10mm;
+        padding: 0;
+        transform: scale(1);
+        transform-origin: top center;
+        page-break-before: always;
+        background: none;
+        padding: 0;
+        box-shadow: none;
+        border-radius: 0;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .table-bordered th, .table-bordered td {
+        font-size: 7pt;
+    }
+
+    th, td {
+        border: 1px solid black;
+        padding: 4px;
+        text-align: center;
+    }
+
+    .footer-line {
+        display: none;
+    }
+
+    .container:last-child {
+        page-break-after: auto;
+    }
+
+    .header-title {
+        text-align: center;
+        margin-bottom: 10px;
+    }
+    
+    .file-display {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        margin-top: 10px;
+    }
+    
+    .attached-image {
+        max-width: 30%;
+        max-height: 90%;
+        object-fit: contain;
+    }
+    
+    .no-file {
+        font-size: 14px;
+        color: #333;
+    }
+}

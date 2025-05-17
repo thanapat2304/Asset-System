@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/favicon.ico') }}">
+    <title>Assets-Service</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link href="https://fonts.googleapis.com/css2?family=Anuphan:wght@100..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/export.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+    <script src="{{ url_for('static', filename='js/export.js') }}"></script>
+</head>
+
+<body>
+    <aside class="sidebar">
+        <button class="sidebar-toggle">
+            <span class="material-symbols-outlined"> menu </span>
+        </button>
+        <br>
+        <div class="sidebar-header">
+            <img src="{{ url_for('static', filename='img/favicon.ico') }}" alt="logo">
+            <h2>Assets-Service</h2>
+        </div>
+        <ul class="sidebar-links">
+            <h4>
+                <span>Main Menu</span>
+                <div class="menu-separator"></div>
+            </h4>
+            <li>
+                <a href='/dashboard'>
+                <span class="material-symbols-outlined"> dashboard </span>Dashboard</a>
+            </li>
+            <h4>
+                <span>Asset Menu</span>
+                <div class="menu-separator"></div>
+            </h4>
+            <li>
+                <a href='/asset'><span class="material-symbols-outlined">table</span>รายการทรัพย์สิน</a>
+            </li>
+            <li>
+                <a href='/add_asset'><span class="material-symbols-outlined">note_add</span>เพิ่มทรัพย์สิน</a>
+            </li>
+            <li>
+                <a href='/add_type'><span class="material-symbols-outlined">format_list_bulleted</span>เพิ่มประเภท</a>
+            </li>
+            <li>
+                <a href='/add_location'><span class="material-symbols-outlined">map</span>เพิ่มสถานที่</a>
+            </li>
+            <li>
+                <a href='/export'><span class="material-symbols-outlined">ios_share</span>ส่งออกรายงาน</a>
+            </li>
+            <h4>
+                <span>System Menu</span>
+                <div class="menu-separator"></div>
+            </h4>
+            <li>
+                <a href='/logout'><span class="material-symbols-outlined">logout</span>ออกจากระบบ</a>
+            </li>
+        </ul>
+    </aside>
+
+    <div class="container2">
+        <div class="header-title"> รายการทรัพย์สิน</div>
+        <form method="POST" class="container">
+            <div class="form-row" style="display: flex; align-items: center; gap: 20px;">
+                <div>
+                    <label for="type">เลือกประเภท:</label>
+                    <select name="type" id="type" class="select2 font" style="padding: 5px; font-size: 16px;" required>
+                        <option value="">-- เลือกประเภท --</option>
+                        {% for type in type %}
+                            <option value="{{ type.id }}">{{ type.AS_Name_type }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div>
+                    <label for="branch">เลือกสาขา:</label>
+                    <select name="branch" id="branch" class="select2 font" style="padding: 5px; font-size: 16px;" required>
+                        <option value="">-- เลือกสาขา --</option>
+                        {% for branch in branch %}
+                            <option value="{{ branch.id }}">{{ branch.AS_Name_Branch }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div>
+                    <label for="branch">เลือกปี:</label>
+                    <select name="year" id="year" class="select2 font" style="padding: 5px; font-size: 16px;" required>
+                        <option value="">-- เลือกปี --</option>
+                        {% for year in year %}
+                            <option value="{{ year.id }}">{{ year.AS_Name_year }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <button type="submit" class="btn seach-btn">ค้นหา <span class="material-symbols-outlined">search</span></button>
+            </div>
+        </form>
+    </div>
+
+    <div class="container2">
+        {% if results %}
+        <button id="exportButton" class="btn export-btn">ส่งออกเป็น Excel</button>
+        <br>
+          <div class="header-subtitle">
+            {% if selected_year %}
+                ทรัพย์สินประเภท {{ selected_branch_info if selected_branch_info else "ทั้งหมด" }} ของ {{ selected_type_info if selected_type_info else "ทั้งหมด"}}
+            {% else %}
+                ทรัพย์สินประเภท {{ selected_branch_info if selected_branch_info else "ทั้งหมด" }} ของ {{ selected_type_info if selected_type_info else "ทั้งหมด"}}
+            {% endif %}
+          </div>
+          <br>
+            <div class="header-subtitle">
+                ทรัพย์สินทั้งหมด : <span style="color: red;">{{ formatted_total_count }}</span> รายการ
+                <br>
+                <br>
+                มูลค่ารวมทั้งหมด : <span style="color: red;">{{ formatted_total_sum }}</span> บาท
+            </div>
+            <div class="content">
+                <div id="table" class="table-container">
+                    <table id="myTable" border="1">
+                        <thead>
+                            <tr>
+                                <th style="text-align: center;">ลำดับ</th>
+                                <th style="text-align: center;">วันที่บันทึกรายการ</th>
+                                <th style="text-align: center;">รหัสทรัพย์สิน</th>
+                                <th style="text-align: center;">ปี</th>
+                                <th style="text-align: center;">บัญชีเลขที่</th>
+                                <th style="text-align: center;">ประเภท</th>
+                                <th style="text-align: center;">สถานที่</th>
+                                <th style="text-align: center;">ชื่อทรัพย์สิน</th>
+                                <th style="text-align: center;">รายละเอียด</th>
+                                <th style="text-align: center;">วันที่ซื้อ</th>
+                                <th style="text-align: center;">อายุการใช้งาน (วัน)</th>
+                                <th style="text-align: center;">มูลค่าทรัพย์สิน</th>
+                                <th style="text-align: center;">ชื่อบริษัทที่ซื้อสินค้า</th>
+                                <th style="text-align: center;">หมายเหตุ</th>
+                                <th style="text-align: center;">แผนก</th>
+                                <th style="text-align: center;">ผู้ใข้</th> 
+                                <th style="text-align: center;">หมายเลขซีเรียล (S/N)</th>
+                                <th style="text-align: center;">สถานะ</th>
+                                <th style="text-align: center;">ชื่อผู้บันทึก</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for row in results %}
+                            <tr>
+                                <td style="text-align: center;">{{ loop.index }}</td>
+                                <td style="text-align: center;">{{ row[0] }}</td>
+                                <td style="text-align: center;">{{ row[1] }}</td>
+                                <td style="text-align: center;">{{ row[2] }}</td>
+                                <td style="text-align: center;">{{ row[3] }}</td>
+                                <td style="text-align: center;">{{ row[4] }}</td>
+                                <td style="text-align: center;">{{ row[5] }}</td>
+                                <td style="text-align: center;">{{ row[6] }}</td>
+                                <td style="text-align: center;">{{ row[7] }}</td>
+                                <td style="text-align: center;">{{ row[8] }}</td>
+                                <td style="text-align: center;">{{ row[17] if row[17] is not none else '-' }}</td>
+                                <td style="text-align: center;">{{ '{:,.2f}'.format(row[9] | float | round(2)) }}</td>
+                                <td style="text-align: center;">{{ row[10] }}</td>
+                                <td style="text-align: center;">{{ row[11] }}</td>
+                                <td style="text-align: center;">{{ row[12] }}</td>
+                                <td style="text-align: center;">{{ row[13] }}</td>
+                                <td style="text-align: center;">{{ row[14] }}</td>
+                                <td style="text-align: center;">{{ row[16] }}</td>
+                                <td style="text-align: center;">{{ row[15] }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+          
+        {% else %}
+            {% if not selected_branch_info and not selected_branch_info %}
+                <div class="header-subtitle">โปรดเลือกให้ครบทั้ง 3 ช่อง</div>
+            {% else %}
+                <div class="header-subtitle" style="color: red;">
+                    *** {{ selected_branch_info if selected_branch_info else "ทั้งหมด"}} ไม่มีรายการ {{ selected_type_info if selected_type_info else "ทั้งหมด"}} ***
+                </div>
+            {% endif %}
+        {% endif %}
+      </div>
+      <script>
+        document.getElementById("exportButton").addEventListener("click", function() {
+            var table = document.getElementById("myTable");
+            var wb = XLSX.utils.table_to_book(table, {sheet: "Sheet 1"});
+            
+            var ws = wb.Sheets["Sheet 1"];
+            var range = XLSX.utils.decode_range(ws['!ref']);
+            for (var col = range.s.c; col <= range.e.c; col++) {
+                var maxWidth = 0;
+                for (var row = range.s.r; row <= range.e.r; row++) {
+                    var cell = ws[XLSX.utils.encode_cell({r: row, c: col})];
+                    if (cell && cell.v) {
+                        var cellValue = String(cell.v);
+                        maxWidth = Math.max(maxWidth, cellValue.length);
+                    }
+                }
+                var colLetter = XLSX.utils.encode_col(col);
+                ws['!cols'] = ws['!cols'] || [];
+                ws['!cols'][col] = { wch: maxWidth };
+            }
+    
+            XLSX.writeFile(wb, "assets_report.xlsx");
+        });
+    </script>
+</body>
+</html>

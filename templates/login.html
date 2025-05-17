@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/favicon.ico') }}">
+    <title>Assets-Service</title>
+    <link href="https://fonts.googleapis.com/css2?family=Anuphan:wght@100..700&display=swap" rel="stylesheet"> <!-- ตัวหนังสือ -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+    <script src="{{ url_for('static', filename='js/login.js') }}" defer></script>
+</head>
+
+<body style="background-image: url('{{ url_for('static', filename='img/777.png') }}'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+    <img src="{{ url_for('static', filename='img/logo-aep.png') }}" alt="Login Image" style="width: 200px; height: auto;">
+    <div class="login-container">
+        <div class="logo">
+            <h1>Login to your account</h1>
+        </div>
+        <form action="/login" method="post">
+            <div class="input-group">
+                <label for="email">Email <span style="color: red;">*</span></label>
+                <input type="text" placeholder="ระบุชื่อผู้ใช้" name="username" required class="font" value="{{ request.cookies.get('username', '') }}">
+            </div>
+            <div class="input-group" style="position: relative;">
+                <label for="password">Password <span style="color: red;">*</span></label>
+                <input type="password" placeholder="ระบุรหัสผ่าน" name="password" required class="font" id="password" value="{{ request.cookies.get('password', '') }}">
+                <span class="toggle-password" id="togglePassword"><i class="material-icons">visibility</i></span>
+            </div>
+            <label>
+                <input type="checkbox" name="remember" {% if request.cookies.get('remember') == 'true' %}checked{% endif %}>
+                จดจำรหัสผ่าน
+              </label>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+
+    <div class="popup-overlay"></div>
+    <div class="popup" id="errorPopup">
+        <h2>รหัสผ่านผิด</h2>
+        <p>กรุณาลองอีกครั้ง</p>
+    </div>
+
+</body>
+</html>

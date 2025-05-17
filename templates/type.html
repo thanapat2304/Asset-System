@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/favicon.ico') }}">
+    <title>Assets-Service</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link href="https://fonts.googleapis.com/css2?family=Anuphan:wght@100..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/type.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.min.js"></script>
+    <script src="{{ url_for('static', filename='js/type.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/sideber.js') }}"></script>
+</head>
+
+<body>
+    <aside class="sidebar">
+        <button class="sidebar-toggle">
+            <span class="material-symbols-outlined"> menu </span>
+        </button>
+        <br>
+        <div class="sidebar-header">
+            <img src="{{ url_for('static', filename='img/favicon.ico') }}" alt="logo">
+            <h2>Assets-Service</h2>
+        </div>
+        <ul class="sidebar-links">
+            <h4>
+                <span>Main Menu</span>
+                <div class="menu-separator"></div>
+            </h4>
+            <li>
+                <a href='/dashboard'>
+                <span class="material-symbols-outlined"> dashboard </span>Dashboard</a>
+            </li>
+            <h4>
+                <span>Asset Menu</span>
+                <div class="menu-separator"></div>
+            </h4>
+            <li>
+                <a href='/asset'><span class="material-symbols-outlined">table</span>รายการทรัพย์สิน</a>
+            </li>
+            <li>
+                <a href='/add_asset'><span class="material-symbols-outlined">note_add</span>เพิ่มทรัพย์สิน</a>
+            </li>
+            <li>
+                <a href='/add_type'><span class="material-symbols-outlined">format_list_bulleted</span>เพิ่มประเภท</a>
+            </li>
+            <li>
+                <a href='/add_location'><span class="material-symbols-outlined">map</span>เพิ่มสถานที่</a>
+            </li>
+            <li>
+                <a href='/export'><span class="material-symbols-outlined">ios_share</span>ส่งออกรายงาน</a>
+            </li>
+            <h4>
+                <span>System Menu</span>
+                <div class="menu-separator"></div>
+            </h4>
+            <li>
+                <a href='/logout'><span class="material-symbols-outlined">logout</span>ออกจากระบบ</a>
+            </li>
+        </ul>
+    </aside>
+
+    <div class="container2">
+        <button id="addDataBtn"><span class="material-symbols-outlined">add</span>เพิ่มข้อมูลใหม่</button>
+
+        <div id="addDataModal" class="modal" style="display: none;">
+            <div class="modal-overlay"></div>
+        
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h3>เพิ่มข้อมูลใหม่</h3>
+                
+                <form id="addDataForm">
+                    <label for="accountCode">รหัสประเภททรัพย์สิน:</label>
+                    <input type="text" id="accountCode" name="accountCode" oninput="validateNumber(event)" required>
+                
+                    <label for="nameType">ประเภททรัพย์สิน:</label>
+                    <input type="text" id="nameType" name="nameType" required>
+                
+                    <label for="depreciationRate">อัตราค่าเสื่อม (%):</label>
+                    <input type="text" id="depreciationRate" name="depreciationRate" oninput="validateNumber(event)" required>
+                
+                    <label for="percent">อัตราค่าเสื่อม (ปี):</label>
+                    <input type="text" id="percent" name="percent" oninput="validateNumber(event)" required>
+                
+                    <button type="submit">บันทึก</button>
+                </form>
+            </div>
+        </div>        
+
+        <div class="content">
+            {% if results %}
+            <table id="myTable" border="1">
+                <thead>
+                    <tr>
+                        <th style="text-align: center;">No</th>
+                        <th style="text-align: center;">รหัสประเภททรัพย์สิน</th>
+                        <th style="text-align: center;">ประเภททรัพย์สิน</th>
+                        <th style="text-align: center;">อัตราค่าเสื่อม (%)</th>
+                        <th style="text-align: center;">อัตราค่าเสื่อม (ปี)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in results %}
+                    <tr>
+                        <td style="text-align: center;">{{ loop.index }}</td>
+                        <td style="text-align: center;">{{ row['Account_code'] }}</td>
+                        <td style="text-align: center;">{{ row['AS_Name_type'] }}</td>
+                        <td style="text-align: center;">{{ row['Percent'] }} %</td>
+                        <td style="text-align: center;">{{ row['Depreciation_rate'] }} ปี</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p style="text-align: center; color: red;">***ยังไม่มีข้อมูลสำหรับแสดงผล***</p>
+            {% endif %}
+        </div>
+    </div>
+    <div class="footer-line">
+        <p>American-European Products Co.,Ltd</p>
+        <p>Develop by Information Technology Department | Last Update 2024</p>
+    </div>
+
+    <script>
+        document.getElementById("addDataBtn").addEventListener("click", function () {
+            document.getElementById("addDataModal").style.display = "block";
+        });
+        
+        document.querySelector(".close").addEventListener("click", function () {
+            document.getElementById("addDataModal").style.display = "none";
+        });
+        
+        document.getElementById("addDataForm").addEventListener("submit", function (event) {
+            event.preventDefault();
+        
+            const data = {
+                accountCode: document.getElementById("accountCode").value,
+                nameType: document.getElementById("nameType").value,
+                depreciationRate: document.getElementById("depreciationRate").value,
+                percent: document.getElementById("percent").value,
+            };
+        
+            fetch("/add_type", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data),
+            })
+                .then((response) => response.json())
+                .then((result) => {
+                    alert(result.message);
+                    document.getElementById("addDataModal").style.display = "none";
+                    location.reload();
+                })
+                .catch((error) => console.error("Error:", error));
+        });
+        
+    </script>
+</body>
+</html>
