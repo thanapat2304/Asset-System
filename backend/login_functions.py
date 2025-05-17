@@ -4,7 +4,7 @@ from backend.db_connection import connect_aep_portal
 users = [
     {
         'username': 'admin',
-        'password': 'admin1',
+        'password': 'Admin@1',
         'user_name': 'Thanapurt'
     }
 ]
