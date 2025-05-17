@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/favicon.ico') }}">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/favicon.png') }}">
     <title>Assets-Service</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link href="https://fonts.googleapis.com/css2?family=Anuphan:wght@100..700&display=swap" rel="stylesheet">
@@ -23,7 +23,7 @@
         </button>
         <br>
         <div class="sidebar-header">
-            <img src="{{ url_for('static', filename='img/favicon.ico') }}" alt="logo">
+            <img src="{{ url_for('static', filename='img/favicon.png') }}" alt="logo">
             <h2>Assets-Service</h2>
         </div>
         <ul class="sidebar-links">
@@ -185,7 +185,11 @@
                 </div>
             {% endif %}
         {% endif %}
-      </div>
+        </div>
+          <div class="footer-line">
+            <p>Sopon-Product Co.,Ltd.</p>
+            <p>Develop by Thanapurt Sopon | Last Update 2025</p>
+        </div>
       <script>
         document.getElementById("exportButton").addEventListener("click", function() {
             var table = document.getElementById("myTable");
