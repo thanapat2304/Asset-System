@@ -19,7 +19,7 @@ UPLOAD_FOLDER = 'static/data/'
 ALLOWED_EXTENSIONS = {'jpg', 'jpeg', 'png'}
 
 app = Flask(__name__)
-app.secret_key = '86679f9154d781668b739b1fc8134674'
+app.secret_key = '0000000000000000000000000'
 app.permanent_session_lifetime = timedelta(minutes=30)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
@@ -218,7 +218,7 @@ def delete_record(id):
     if conn:
         cursor = conn.cursor()
         try:
-            cursor.execute("DELETE FROM as_tb_ms WHERE id = %s", (id,))
+            cursor.execute("DELETE FROM tb_demo WHERE id = %s", (id,))
             conn.commit()
         except Exception as e:
             print(f"Error: {e}")
